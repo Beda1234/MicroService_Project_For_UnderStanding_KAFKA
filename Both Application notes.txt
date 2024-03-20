@@ -1,0 +1,34 @@
+This Project is for understanding the work from by using KAFKA 
+
+This project is basically for a driver service is present and a user service is present where driver will continiously send the data to the user
+This will be happen by the help of kafka . This is basically like a zomato food delivery service where zomato food delivery boy continiously sending the
+updated location to the user so that user can know where the delivery boy is .
+
+For this we create two service deliveryboy and user service 
+where we are using web and Spring for Apache Kafka dependency here we are not using jpa bcz we are not storing data into the database . if we want
+we can store the data in the database as well .
+
+Windows
+___________
+Create new topic 
+>bin\windows\kafka-topics.bat --create --topic user-topic --bootstrap-server localhost:9092
+
+Produce new topic 
+bin\windows\kafka-console-producer.bat --topic user-topic --bootstrap-server localhost:9092
+
+Consuming message
+bin\windows\kafka-console-consumer.bat --topic user-topic --from-beginning --bootstrap-server localhost:9092
+
+Producer configuration in application.properties file
+spring.kafka.producer.bootstrap-servers=localhost:9092
+spring.kafka.producer.key-serializer=org.apache.kafka.common.serialization.StringSerializer
+spring.kafka.producer.value-serializer=org.apache.kafka.common.serialization.StringSerializer
+
+
+Consumer configuration in application.properties file
+server.port=8081
+spring.kafka.consumer.bootstrap-servers=localhost:9092
+spring.kafka.consumer.group-id=group-id
+spring.kafka.consumer.auto-offset-reset=earliest
+spring.kafka.consumer.key-deserializer=org.apache.kafka.common.serialization.StringDeserializer
+spring.kafka.consumer.value-deserializer=org.apache.kafka.common.serialization.StringDeserializer

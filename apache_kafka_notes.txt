@@ -1,0 +1,148 @@
+Apache Apache Kafka ->
+
+https://www.youtube.com/watch?v=ei6fK9StzMM&t=239s
+
+https://kafka.apache.org/documentation/ 
+
+It is like a communication system that helps different parts of a computer system exchange data by publishing and subscribing to topics 
+
+By the help of this someone will send the data and someone will recive the data 
+
+-> Sender will send the data and so that sender is a publisher and publish the data so that kafka will get the data and ho ever receiver is subscribe
+   that kafka that receiver will receive the data from the kafka 
+   
+   SENDER --> (publish the data) APACHE KAFKA --> (subscribe the kafka so that receiver will receive the data from the kafka)  RECEIVER
+   
+
+Lets understand with the example ,
+ 1. OLA driver location update -> every second we are getting data of a ola driver
+ 2. Zomato live food tracking  -> every second we are getting data of a zomato driver
+ 3. Notification System of a huge user like DISCORD Chat Application
+
+Why Kafka -->
+ 
+In a simple example data base can store lots of data but in the example of Zomato live food tracking need to store lots of data in a second so that
+while storing lots of data in second in the data base is not possible bcz the throughput of the database is very low In Data base storage is high but the
+throughput is very low in a second we cant store lots of data in the db if we want to store then the db will crash or performance will become slow
+so that we are using kafka , In kafka the throughput is high but the storage capacity is low . So That we are using both the servicess in the application where 
+we are storing lots of data in a second .
+
+Use of Kafka -->
+
+While a data are coming 1st  we will store them in the kafka and once lots of data present in the kafka we will directly send the kafka data into the 
+data base . Kafka throughput is high so we if we send data in every second then the performance will not reduce . Once lots of data store in the kafka 
+kafka will send those bulk of data to the databse bcz kafka have very low storage capacity and those data will take few times to send that bulk of data to
+the database . Thats how we are storing data in kafka and from kafka to data base so that performance will not decrease and data streaming will work fine.
+  1. High ThroughPut
+  2. Fault Tolerance (Replication)
+  3. Durable 
+  4. Scalable
+
+  Delivery Boy ---(Location)-(Publish every sec. data)(KAFKA)------ >subscribe USER (Get the data from kafka) ----(Bulk batch operation)--> Update data to server
+  
+Architecture -->
+  
+PRODUCER  --> KAFKA ECO SYETEM (Kafka cluster (Softare which is menage the servers of the kafka (In the cluster we will get multiple server of the kafka like Broker 1 (Topic A , Topic B We can store multiple topic in a single server like a database where in a single data base multiple table to oraganise the data(In the Topic again we have some Partition those are Partition - 1 , Partition - 2  we have multiple partition in a single topic where data are storing like this a array in 0 index data , 1 index data , 2 index data....)) , Broker 2(Topic A)))) (ZooKeeper (Is Another system system help kafka to menage brokers state)) --> CONSUMER
+
+
+Producer --> Kafka eco system -> Consumer
+Kafka eco system -> (Kafka cluster + ZooKeeper)
+Kafka cluster -> Multiple Broker (Broker 1 , Broker 2)
+Broker -> Multiple Topic (Topic A , Topic B)
+Topic -> Multiple Partition (Partition 1 , Partition 2)
+
+With out ZooKeeper we cant use kafka , This is for menage the kafka cluster ..
+
+Installation -->
+
+1. Download kafka zip from  the official website
+2. Extract file 
+3. Start ZooKeeper
+4. Start Kafka Server
+
+
+Official Doc. -->
+From the below link we can check all the doc like how to start zookeper , kafka nd realated to topics and all 
+https://kafka.apache.org/documentation/
+https://kafka.apache.org/intro
+
+TO download the kafka -->
+
+https://www.apache.org/dyn/closer.cgi?path=/kafka/3.7.0/kafka_2.13-3.7.0.tgz
+
+After extract we need to open cmd in this folder 
+C:\Users\Beda.B\Projects\kafka-3.7.0-src\kafka-3.7.0-src> 
+
+after entering to that folder we need to write this cmd 
+
+C:\Projects\kafka>bin\windows\zookeeper-server-start.bat config\zookeeper.properties
+
+So by this cmd our zoopkeeper will start for the kafka 
+
+in the logs we will see something like this 
+[2024-03-19 15:06:21,998] INFO clientPortAddress is 0.0.0.0:2181 (org.apache.zookeeper.server.quorum.QuorumPeerConfig)
+
+the zookeeper will start on 2181 this port  number
+
+C:\Projects\kafka>bin\windows\kafka-server-start.bat config\server.properties
+
+this cmd will start the kafka server we can open this in different cmd cell so that we can use both the cmd cell
+
+after start the kafka server in log we will get something like this 
+
+[2024-03-19 15:25:22,778] INFO Awaiting socket connections on 0.0.0.0:9092. (kafka.network.DataPlaneAcceptor)
+
+this is the default port for the kafka server
+
+Now we can create topics in this server to store the data 
+
+Now zookeper is using kafka 
+
+Lets use KAFKA with console -->
+
+1. Create new topics with kafca-topics -> kafka-topics.bat    (This .bat is for the windows if we use mac then in the place of .bet we need to put .sh)
+2. Produce example message with kafka-console-producer -> kafka-console-producer.bat
+3. Consume the message with kafka-console-consumer -> kafka-console-consumer.bat
+
+C:\Projects\kafka>bin\windows\kafka-topics.bat
+By the help of this we can see all the cmd related to topics like how to create delete and all topics cmd
+
+Create the topic -->
+C:\Projects\kafka>bin\windows\kafka-topics.bat --create --topic user-topic --bootstrap-server localhost:9092
+
+localhost:9092 -> Our kafka server is running on this server
+user-topic -> Our topic name 
+bootstrap-server -> kafka server
+Then we will see something like this (Created topic user-topic.)
+
+To checkthe details of the topic -->
+C:\Projects\kafka>bin\windows\kafka-topics.bat --describe --topic user-topic --bootstrap-server localhost:9092
+
+Now lets produce some data(send data) into that topic --> 
+we can do that by the help of the cmd
+
+C:\Projects\kafka>bin\windows\kafka-console-producer.bat --topic user-topic --bootstrap-server localhost:9092
+
+after this cmd we will get ">" so now here we can write any message something like this 
+>this is my first topic
+>this is the second 
+
+This message will visible or shown to those consumer who are subscribe to this topic thay can only get this data 
+So that we will open another cmd cell and write this cmd 
+
+consumming the message -->
+
+C:\Projects\kafka>bin\windows\kafka-console-consumer.bat --topic user-topic --from-beginning --bootstrap-server localhost:9092
+
+from-beginning -> This is for getting the data from the beginning
+
+Multiple consumer can consumming the message from a topic 
+
+If we open multiple cmd cell and if we write this cmd 
+(C:\Projects\kafka>bin\windows\kafka-console-consumer.bat --topic user-topic --from-beginning --bootstrap-server localhost:9092)
+
+Then every one can see the message of the producer who is sending the message
+We can check that by in a single system screen we can open single producer cmd screen and multiple consumer cmd screen and if we send any message 
+from the producer then we can see all the in the multiple consumers
+
+You can stop the any of the consumer client with Ctrl-C at any time.
