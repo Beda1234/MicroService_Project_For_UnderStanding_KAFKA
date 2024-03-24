@@ -2,3 +2,7 @@
 
 
 In This project we will understand the use of KAFKA , where a user service and a delivery boy service app is present where delivery boy app will produce the location and user service app will collect the data from the kafka server by the topic of kafka
+
+# Application
+
+https://seyhmusaydogdu.medium.com/spring-boot-apache-kafka-a2cc1088be8d
